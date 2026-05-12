@@ -1,0 +1,111 @@
+:root {
+  color: #1f1f1f;
+  background: #f7f4ef;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f7f4ef;
+}
+
+.navbar-brand {
+  letter-spacing: 0.04em;
+}
+
+.router-link-active:not(.navbar-brand) {
+  font-weight: 700;
+}
+
+.hero-section {
+  background:
+    linear-gradient(90deg, rgba(17, 17, 17, 0.88), rgba(17, 17, 17, 0.35)),
+    url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=80') center/cover;
+}
+
+.min-vh-50 {
+  min-height: 520px;
+}
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.feature-card,
+.product-card,
+.card {
+  border-radius: 1rem;
+}
+
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;
+}
+
+.product-image {
+  height: 280px;
+  object-fit: cover;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.detail-image {
+  width: 100%;
+  max-height: 620px;
+  object-fit: cover;
+}
+
+.admin-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.cart-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.cart-summary {
+  top: 5rem;
+}
+
+.catalog-controls {
+  width: min(100%, 520px);
+}
+
+.toast-message {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1080;
+}
+
+.auth-section {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+@media (max-width: 767.98px) {
+  .min-vh-50 {
+    min-height: 430px;
+  }
+
+  .product-image {
+    height: 230px;
+  }
+
+  .cart-image {
+    height: 180px;
+  }
+}
