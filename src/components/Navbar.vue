@@ -1,0 +1,72 @@
+<template>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <RouterLink class="navbar-brand fw-bold" to="/">UrbanStyle</RouterLink>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="mainNavbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/">Inicio</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/catalogo">Catálogo</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/carrito">Carrito</RouterLink>
+          </li>
+          <template v-if="currentUser">
+            <li class="nav-item text-white-50 small ms-lg-2">Hola, {{ currentUser.name }}</li>
+            <li class="nav-item">
+              <button class="btn btn-outline-light btn-sm" type="button" @click="logout">Salir</button>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/login">Login</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="btn btn-outline-light btn-sm ms-lg-2" to="/registro">Registro</RouterLink>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getCurrentUser, logoutUser } from '../services/authService'
+
+const route = useRoute()
+const router = useRouter()
+const currentUser = ref(getCurrentUser())
+
+watch(
+  () => route.fullPath,
+  () => {
+    currentUser.value = getCurrentUser()
+  },
+)
+
+function logout() {
+  logoutUser()
+  currentUser.value = null
+  router.push('/')
+}
+</script>
