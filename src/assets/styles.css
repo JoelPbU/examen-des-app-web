@@ -33,7 +33,7 @@ body {
 .feature-card,
 .product-card,
 .card {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
 }
 
 .product-card {
@@ -96,6 +96,15 @@ body {
   background: rgba(255, 255, 255, 0.96);
 }
 
+.modal {
+  background: rgba(17, 17, 17, 0.15);
+}
+
+.table td,
+.table th {
+  white-space: nowrap;
+}
+
 @media (max-width: 767.98px) {
   .min-vh-50 {
     min-height: 430px;
@@ -107,5 +116,10 @@ body {
 
   .cart-image {
     height: 180px;
+  }
+
+  .table td,
+  .table th {
+    white-space: normal;
   }
 }
