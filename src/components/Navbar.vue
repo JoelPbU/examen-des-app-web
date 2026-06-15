@@ -22,21 +22,30 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/catalogo">Catálogo</RouterLink>
           </li>
-          <li class="nav-item">
+          <li v-if="isAdminUser" class="nav-item">
             <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
+          </li>
+          <li v-if="isAdminUser" class="nav-item">
+            <RouterLink class="nav-link" to="/admin/usuarios">Usuarios</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/carrito">Carrito</RouterLink>
           </li>
           <template v-if="currentUser">
-            <li class="nav-item text-white-50 small ms-lg-2">Hola, {{ currentUser.name }}</li>
+            <li class="nav-item text-white-50 small ms-lg-2">Hola, {{ currentUser.nombre || currentUser.name }}</li>
             <li class="nav-item">
-              <button class="btn btn-outline-light btn-sm" type="button" @click="logout">Salir</button>
+              <button class="btn btn-outline-light btn-sm" type="button" @click="logout">
+                <i class="bi bi-box-arrow-right me-1"></i>
+                Salir
+              </button>
             </li>
           </template>
           <template v-else>
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/login">Login</RouterLink>
+              <RouterLink class="nav-link" to="/login">
+                <i class="bi bi-person-lock me-1"></i>
+                Login
+              </RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="btn btn-outline-light btn-sm ms-lg-2" to="/registro">Registro</RouterLink>
@@ -49,24 +58,33 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getCurrentUser, logoutUser } from '../services/authService'
+import { getCurrentUser, logoutUser, isAdmin } from '../services/authService'
 
 const route = useRoute()
 const router = useRouter()
-const currentUser = ref(getCurrentUser())
+const currentUser = ref(null)
+const isAdminUser = ref(false)
+
+const updateUserData = () => {
+  currentUser.value = getCurrentUser()
+  isAdminUser.value = isAdmin()
+}
+
+onMounted(updateUserData)
 
 watch(
   () => route.fullPath,
   () => {
-    currentUser.value = getCurrentUser()
+    updateUserData()
   },
 )
 
 function logout() {
   logoutUser()
   currentUser.value = null
+  isAdminUser.value = false
   router.push('/')
 }
 </script>
