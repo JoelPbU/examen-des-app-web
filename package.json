@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "latest",
+    "axios": "latest",
     "bootstrap": "latest",
+    "bootstrap-icons": "latest",
     "vite": "latest",
     "vue": "latest",
     "vue-router": "latest"

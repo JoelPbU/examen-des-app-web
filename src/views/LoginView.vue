@@ -13,14 +13,23 @@
 
               <form @submit.prevent="submitLogin">
                 <div class="mb-3">
-                  <label class="form-label" for="email">Correo</label>
-                  <input id="email" v-model.trim="form.email" class="form-control" type="email" required />
+                  <label class="form-label" for="username">Usuario o correo</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input id="username" v-model.trim="form.username" class="form-control" required />
+                  </div>
                 </div>
                 <div class="mb-4">
                   <label class="form-label" for="password">Contraseña</label>
-                  <input id="password" v-model="form.password" class="form-control" type="password" required />
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input id="password" v-model="form.password" class="form-control" type="password" required />
+                  </div>
                 </div>
-                <button class="btn btn-dark w-100" type="submit">Entrar</button>
+                <button class="btn btn-dark w-100" type="submit" :disabled="loading">
+                  <i class="bi bi-box-arrow-in-right me-1"></i>
+                  {{ loading ? 'Validando...' : 'Entrar' }}
+                </button>
               </form>
 
               <p class="text-center text-secondary mt-4 mb-0">
@@ -37,24 +46,29 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { loginUser } from '../services/authService'
 
+const route = useRoute()
 const router = useRouter()
 const error = ref('')
+const loading = ref(false)
 const form = reactive({
-  email: '',
+  username: '',
   password: '',
 })
 
-function submitLogin() {
+async function submitLogin() {
   error.value = ''
+  loading.value = true
 
   try {
-    loginUser(form)
-    router.push('/admin')
+    await loginUser(form)
+    router.push(route.query.redirect || '/admin')
   } catch (err) {
     error.value = err.message
+  } finally {
+    loading.value = false
   }
 }
 </script>

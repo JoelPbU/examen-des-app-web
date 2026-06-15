@@ -18,7 +18,9 @@
       </div>
     </div>
 
-    <div v-if="filteredProducts.length" class="row g-4">
+    <div v-if="loading" class="alert alert-info">Cargando catálogo...</div>
+    <div v-else-if="error" class="alert alert-danger">{{ error }}</div>
+    <div v-else-if="filteredProducts.length" class="row g-4">
       <div v-for="product in filteredProducts" :key="product.id" class="col-sm-6 col-lg-4">
         <ProductCard :product="product" @add-to-cart="handleAddToCart" />
       </div>
@@ -30,16 +32,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import EmptyState from '../components/EmptyState.vue'
 import ProductCard from '../components/ProductCard.vue'
 import { addToCart } from '../services/cartService'
 import { getProducts } from '../services/productService'
 
-const products = ref(getProducts())
+const products = ref([])
 const search = ref('')
 const selectedCategory = ref('')
 const message = ref('')
+const loading = ref(true)
+const error = ref('')
 
 const categories = computed(() => [...new Set(products.value.map((product) => product.category))])
 const filteredProducts = computed(() => {
@@ -58,4 +62,18 @@ function handleAddToCart(product) {
     message.value = ''
   }, 2200)
 }
+
+async function loadProducts() {
+  loading.value = true
+  error.value = ''
+  try {
+    products.value = await getProducts()
+  } catch (err) {
+    error.value = err.message || 'No fue posible cargar el catálogo.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadProducts)
 </script>

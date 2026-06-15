@@ -10,7 +10,7 @@
           </p>
           <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
             <RouterLink class="btn btn-light btn-lg" to="/catalogo">Comprar ahora</RouterLink>
-            <RouterLink class="btn btn-outline-light btn-lg" to="/admin">Gestionar productos</RouterLink>
+            
             <RouterLink class="btn btn-outline-light btn-lg" to="/registro">Crear cuenta</RouterLink>
           </div>
         </div>
@@ -29,13 +29,13 @@
       <div class="col-md-4">
         <div class="feature-card p-4 h-100">
           <h2 class="h5 fw-bold">CRUD completo</h2>
-          <p class="text-secondary mb-0">Crea, edita y elimina productos desde el panel de administración.</p>
+          <p class="text-secondary mb-0">Crea, edita y elimina productos y usuarios desde paneles protegidos.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card p-4 h-100">
           <h2 class="h5 fw-bold">Compra fácil</h2>
-          <p class="text-secondary mb-0">Añade productos al carrito y mantén tus datos guardados en el navegador.</p>
+          <p class="text-secondary mb-0">Añade productos al carrito y valida credenciales con servicios preparados para MockAPI.</p>
         </div>
       </div>
     </div>

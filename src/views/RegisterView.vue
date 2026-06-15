@@ -17,6 +17,10 @@
                   <input id="name" v-model.trim="form.name" class="form-control" required />
                 </div>
                 <div class="mb-3">
+                  <label class="form-label" for="username">Usuario</label>
+                  <input id="username" v-model.trim="form.username" class="form-control" required />
+                </div>
+                <div class="mb-3">
                   <label class="form-label" for="email">Correo</label>
                   <input id="email" v-model.trim="form.email" class="form-control" type="email" required />
                 </div>
@@ -25,7 +29,10 @@
                   <input id="password" v-model="form.password" class="form-control" minlength="6" type="password" required />
                   <div class="form-text">Mínimo 6 caracteres.</div>
                 </div>
-                <button class="btn btn-dark w-100" type="submit">Crear cuenta</button>
+                <button class="btn btn-dark w-100" type="submit" :disabled="loading">
+                  <i class="bi bi-person-plus me-1"></i>
+                  {{ loading ? 'Creando...' : 'Crear cuenta' }}
+                </button>
               </form>
 
               <p class="text-center text-secondary mt-4 mb-0">
@@ -47,20 +54,25 @@ import { registerUser } from '../services/authService'
 
 const router = useRouter()
 const error = ref('')
+const loading = ref(false)
 const form = reactive({
   name: '',
+  username: '',
   email: '',
   password: '',
 })
 
-function submitRegister() {
+async function submitRegister() {
   error.value = ''
+  loading.value = true
 
   try {
-    registerUser(form)
+    await registerUser(form)
     router.push('/admin')
   } catch (err) {
     error.value = err.message
+  } finally {
+    loading.value = false
   }
 }
 </script>

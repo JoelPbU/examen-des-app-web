@@ -1,6 +1,7 @@
 <template>
   <section class="container py-5">
-    <div v-if="product" class="row g-5 align-items-start">
+    <div v-if="loading" class="alert alert-info">Cargando producto...</div>
+    <div v-else-if="product" class="row g-5 align-items-start">
       <div class="col-lg-6">
         <img :src="product.image" class="img-fluid rounded-4 shadow-sm detail-image" :alt="product.name" />
       </div>
@@ -24,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import EmptyState from '../components/EmptyState.vue'
 import { addToCart } from '../services/cartService'
 import { getProductById } from '../services/productService'
@@ -36,11 +37,20 @@ const props = defineProps({
   },
 })
 
-const product = ref(getProductById(props.id))
+const product = ref(null)
+const loading = ref(true)
 const message = ref('')
 
 function handleAddToCart() {
   addToCart(product.value)
   message.value = `${product.value.name} añadido al carrito.`
 }
+
+async function loadProduct() {
+  loading.value = true
+  product.value = await getProductById(props.id)
+  loading.value = false
+}
+
+onMounted(loadProduct)
 </script>
